@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<AnattaDesign_SetCookieFix>
+			<version>1.0.0</version>
+		</AnattaDesign_SetCookieFix>
+	</modules>
+
+	<global>
+		<helpers>
+			<setcookiefix>
+				<class>AnattaDesign_SetCookieFix_Helper</class>
+			</setcookiefix>
+		</helpers>
+
+		<models>
+			<setcookiefix>
+				<class>AnattaDesign_SetCookieFix_Model</class>
+			</setcookiefix>
+			<core>
+				<rewrite>
+					<cookie>AnattaDesign_SetCookieFix_Model_Core_Cookie</cookie>
+				</rewrite>
+			</core>
+		</models>
+
+		<events>
+			<http_response_send_before>
+				<observers>
+					<setcookiefix>
+						<type>singleton</type>
+						<class>setcookiefix/observer</class>
+						<method>httpResponseSendBefore</method>
+					</setcookiefix>
+				</observers>
+			</http_response_send_before>
+		</events>
+	</global>
+</config>
