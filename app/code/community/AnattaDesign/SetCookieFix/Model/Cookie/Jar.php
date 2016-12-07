@@ -27,54 +27,9 @@ class AnattaDesign_SetCookieFix_Model_Cookie_Jar {
 	 * right before the headers are sent and will override any previous
 	 * versions of the cookie so we always have the latest copy
 	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param int $period
-	 * @param string $path
-	 * @param string $domain
-	 * @param int|bool $secure
-	 * @param bool $httponly
+	 * @param AnattaDesign_SetCookieFix_Model_Cookie $cookie
 	 */
-	public function add($name, $value, $period, $path, $domain, $secure, $httponly) {
-		$cookieHelper = Mage::getSingleton('core/cookie');
-
-		if ($period === true) {
-			$period = 3600 * 24 * 365;
-		} elseif (is_null($period)) {
-			$period = $cookieHelper->getLifetime();
-		}
-
-		if ($period == 0) {
-			$expire = 0;
-		} else {
-			$expire = time() + $period;
-		}
-
-		if (is_null($path)) {
-			$path = $cookieHelper->getPath();
-		}
-		if (is_null($domain)) {
-			$domain = $cookieHelper->getDomain();
-		}
-		if (is_null($secure)) {
-			$secure = $cookieHelper->isSecure();
-		}
-		if (is_null($httponly)) {
-			$httponly = $cookieHelper->getHttponly();
-		}
-
-		// create the cookie
-		/** @var AnattaDesign_SetCookieFix_Model_Cookie $cookie */
-		$cookie = Mage::getModel('setcookiefix/cookie')->setData(array(
-			'name' => $name,
-			'value' => $value,
-			'expire' => $expire,
-			'path' => $path,
-			'domain' => $domain,
-			'secure' => $secure,
-			'httponly' => $httponly,
-		));
-
+	public function add(AnattaDesign_SetCookieFix_Model_Cookie $cookie) {
 		Mage::dispatchEvent('anattadesign_setcookiefix_add_cookie_to_jar_before', array(
 			'cookie_jar' => $this,
 			'cookie' => $cookie

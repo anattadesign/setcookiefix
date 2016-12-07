@@ -11,17 +11,30 @@ class AnattaDesign_SetCookieFix_Model_Observer {
 	public function httpResponseSendBefore($observer) {
 		$cookieJar = Mage::getSingleton('setcookiefix/cookie_jar');
 
+		$headers = headers_list();
+		foreach ($headers as $header) {
+			$cookie = AnattaDesign_SetCookieFix_Model_Cookie::fromHeader($header, Mage::getBaseUrl());
+			if (!$cookie) {
+				continue;
+			}
+
+			$cookieJar->add($cookie);
+		}
+
+		// remove all the cookie headers
+		header_remove('Set-Cookie');
+
 		$cookies = $cookieJar->getCookies();
 		foreach ($cookies as $cookie) {
 			// set the cookies
 			setcookie(
 				$cookie->getName(),
 				$cookie->getValue(),
-				$cookie->getExpire(),
+				$cookie->getExpiryTime(),
 				$cookie->getPath(),
 				$cookie->getDomain(),
-				$cookie->getSecure(),
-				$cookie->getHttpOnly()
+				$cookie->isSecure(),
+				$cookie->isHttpOnly()
 			);
 		}
 	}

@@ -17,11 +17,6 @@
 			<setcookiefix>
 				<class>AnattaDesign_SetCookieFix_Model</class>
 			</setcookiefix>
-			<core>
-				<rewrite>
-					<cookie>AnattaDesign_SetCookieFix_Model_Core_Cookie</cookie>
-				</rewrite>
-			</core>
 		</models>
 
 		<events>
